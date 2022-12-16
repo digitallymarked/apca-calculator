@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react'
+import { ChromePicker } from 'react-color'
 
-function App() {
+export default function App() {
+  const [hex, setHex] = useState('#ff79c6')
+  const [textColor, setTextColor] = useState('white')
+
+  const handleColorChange = (color) => {
+    setHex(color.hex)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div
+      className=' h-screen w-screen grid auto-cols-auto auto-rows-auto justify-items-center content-center gap-4'
+      style={{
+        background: hex,
+      }}
+    >
+      <ChromePicker
+        color={hex}
+        disableAlpha={true}
+        onChange={handleColorChange}
+        className='picker'
+      />
+      <h1 className='text-2xl' style={{ color: textColor }}>
+        Text is {textColor}
+      </h1>
     </div>
-  );
+  )
 }
-
-export default App;
