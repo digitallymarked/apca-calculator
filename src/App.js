@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { ChromePicker } from 'react-color'
-import { APCAcontrast, sRGBtoY } from 'apca-w3'
-import { colorParsley } from 'colorparsley' // optional string parsing
+import { calcAPCA } from 'apca-w3'
 
 export default function App() {
   const [hex, setHex] = useState('#ff79c6')
@@ -9,15 +8,16 @@ export default function App() {
   const [whiteContrast, setWhiteContrast] = useState(51.4)
   const [blackContrast, setBlackContrast] = useState(57.5)
 
-  const whiteAPCA = sRGBtoY(colorParsley('white'))
-  const blackAPCA = sRGBtoY(colorParsley('black'))
-
   const handleColorChange = (color) => {
-    setHex(color.hex)
-    const cl = sRGBtoY(colorParsley(color.hex))
+    // Calculate towards WHITE
+    const LcWhite = parseFloat(
+      Math.abs(calcAPCA('white', color.hex)).toFixed(1),
+    )
 
-    const LcWhite = Number(Math.abs(APCAcontrast(whiteAPCA, cl)).toFixed(2))
-    const LcBlack = Number(APCAcontrast(blackAPCA, cl).toFixed(2))
+    // Calculate towards BLACK
+    const LcBlack = parseFloat(calcAPCA('black', color.hex).toFixed(1))
+
+    setHex(color.hex)
     setTextColor(LcWhite >= LcBlack ? 'white' : 'black')
     setWhiteContrast(LcWhite)
     setBlackContrast(LcBlack)
@@ -36,10 +36,10 @@ export default function App() {
         onChange={handleColorChange}
         className='picker'
       />
-      <h1 className='text-2xl' style={{ color: textColor }}>
+      <h1 className='text-2xl font-mono' style={{ color: textColor }}>
         Text needs to be <span className='font-bold'>{textColor}</span>
       </h1>
-      <div style={{ color: textColor }}>
+      <div className='text-xl font-mono' style={{ color: textColor }}>
         <div>White contrast: {whiteContrast}</div>
         <div>Black contrast: {blackContrast}</div>
       </div>
