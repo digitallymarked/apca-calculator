@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/labs/apca",
+      "destination": "https://apca-calculator.vercel.app"
+    },
+    {
+      "source": "/labs/apca/:match*",
+      "destination": "https://apca-calculator.vercel.app/:match*"
+    }
+  ]
+}
