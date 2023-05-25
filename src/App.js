@@ -80,7 +80,7 @@ export default function App() {
           Auto tint button
         </button>
         <div className='flex flex-row justify-center gap-1'>
-          Contrast is calulated via{' '}
+          Contrast is calculated via{' '}
           <TextLink href='https://www.myndex.com/APCA/'>
             APCA algorithm
           </TextLink>
